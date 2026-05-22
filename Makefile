@@ -3,16 +3,11 @@ SHELL=/bin/bash
 
 DOCKER=podman
 
-HOST_PATH_TO_PROJECT="$$(pwd)"
-CONTAINER_PATH_TO_MOUNT_PROJECT=/home/"$$(whoami)"/"$$(basename $$(pwd))"
-
 NO_NETWORK=
 NETWORK=$$([ -n "${NO_NETWORK}" ] && echo "none" || echo "host")
 
-NVIDIA_GPU=$$([ -n "${WITH_NVIDIA_GPU}" ] && echo $$([ DOCKER = "podman" ] && echo "--device nvidia.com/gpu=all --security-opt=label=disable" || echo "--privileged --gpus=all"))
-
-GEMINI_IMAGE=gemini_arch
-GEMINI_CONTAINER=gemini_arch
+ANTIGRAVITY_IMAGE=antigravity_arch
+ANTIGRAVITY_CONTAINER=antigravity_arch
 UUID=$(shell id -u)
 GUID=$(shell id -g)
 UNAME=$(shell whoami)
@@ -39,22 +34,24 @@ build:
 		--build-arg GROUP_ID=${GUID} \
 		--build-arg USER_NAME=${UNAME} \
 		--build-arg ARCH_BASE_IMAGE=${ARCH_BASE_IMAGE} \
-		-t ${GEMINI_IMAGE} .;
+		-t ${ANTIGRAVITY_IMAGE} .;
 
 run:
 	${DOCKER} run --rm -it \
 		--shm-size 2g \
 		--network ${NETWORK} \
-		--name "${GEMINI_CONTAINER}" \
+		--name "${ANTIGRAVITY_CONTAINER}" \
 		${WITH_USERNS} \
 		--security-opt label=type:container_runtime_t \
-		-v "${CURDIR}"/docker_files/home:/home/${UNAME} \
-		-v "${HOST_PATH_TO_PROJECT}":"${CONTAINER_PATH_TO_MOUNT_PROJECT}" \
-		--workdir "${CONTAINER_PATH_TO_MOUNT_PROJECT}" \
-		${GEMINI_IMAGE}
+		-v "${CURDIR}"/docker_files/home/.cache:/home/${UNAME}/.cache \
+		-v "${CURDIR}"/docker_files/home/.config:/home/${UNAME}/.config \
+		-v "${CURDIR}"/docker_files/home/.gemini:/home/${UNAME}/.gemini \
+		-v "${CURDIR}"/docker_files/home/.antigravitycli:/home/${UNAME}/.antigravitycli \
+		--workdir /home/${UNAME} \
+		${ANTIGRAVITY_IMAGE}
 
 logs:
-	@ ${DOCKER} logs -f "${GEMINI_CONTAINER}"
+	@ ${DOCKER} logs -f "${ANTIGRAVITY_CONTAINER}"
 
 bash:
-	@ ${DOCKER} exec -it "${GEMINI_CONTAINER}" /bin/bash
+	@ ${DOCKER} exec -it "${ANTIGRAVITY_CONTAINER}" /bin/bash
