@@ -2,6 +2,8 @@
 
 Run **Google DeepMind Antigravity CLI** (`agy`) within unprivileged Podman container 
 
+Installed directly from https://antigravity.google
+
 ## Requirements
 
 - [Podman](https://podman.io/) (installed and configured)
