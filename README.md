@@ -4,6 +4,10 @@ Run **Google DeepMind Antigravity CLI** (`agy`) within unprivileged Podman conta
 
 Installed directly from https://antigravity.google
 
+## Why?
+
+ - Extra layer to ensure agent can access / modify / (or damage) what is explicitly exposed
+
 ## Requirements
 
 - [Podman](https://podman.io/) (installed and configured)
