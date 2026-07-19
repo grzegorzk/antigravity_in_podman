@@ -6,6 +6,9 @@ DOCKER=podman
 NO_NETWORK=
 NETWORK=$$([ -n "${NO_NETWORK}" ] && echo "none" || echo "host")
 
+HOST_PATH_TO_PROJECT=$${HOST_PATH_TO_PROJECT?Please provide HOST_PATH_TO_PROJECT}
+CONTAINER_PATH_TO_MOUNT_PROJECT=${HOST_PATH_TO_PROJECT}
+
 ANTIGRAVITY_IMAGE=antigravity_arch
 ANTIGRAVITY_CONTAINER=antigravity_arch
 UUID=$(shell id -u)
@@ -47,7 +50,9 @@ run:
 		-v "${CURDIR}"/docker_files/home/.config:/home/${UNAME}/.config \
 		-v "${CURDIR}"/docker_files/home/.gemini:/home/${UNAME}/.gemini \
 		-v "${CURDIR}"/docker_files/home/.antigravitycli:/home/${UNAME}/.antigravitycli \
-		--workdir /home/${UNAME} \
+                -v "${CURDIR}":/home/${UNAME}/antigravity_in_podman \
+		-v "${HOST_PATH_TO_PROJECT}":"${CONTAINER_PATH_TO_MOUNT_PROJECT}" \
+		--workdir "${CONTAINER_PATH_TO_MOUNT_PROJECT}" \
 		${ANTIGRAVITY_IMAGE}
 
 logs:
