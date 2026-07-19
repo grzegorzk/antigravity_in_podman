@@ -40,7 +40,7 @@ build:
 		-t ${ANTIGRAVITY_IMAGE} .;
 
 run:
-	${DOCKER} run --rm -it \
+	@ ${DOCKER} run --rm -it \
 		--shm-size 2g \
 		--network ${NETWORK} \
 		--name "${ANTIGRAVITY_CONTAINER}" \
