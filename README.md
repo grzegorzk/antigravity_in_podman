@@ -1,6 +1,6 @@
 # Antigravity in Podman
 
-Run **Google DeepMind Antigravity CLI** (`agy`) within unprivileged Podman container 
+Run **Google DeepMind Antigravity CLI** (`agy`) within unprivileged Podman (or Docker) container 
 
 Installed directly from https://antigravity.google
 
@@ -10,10 +10,12 @@ Installed directly from https://antigravity.google
 
 ## Requirements
 
-- [Podman](https://podman.io/) (installed and configured)
+- [Podman](https://podman.io/) or [Docker](https://www.docker.com/) (installed and configured)
 - GNU Make
 
 ## Getting Started
+
+Note: all `make` commands below make use of Podman by default. Pass `Docker=docker` if you prefer to run in docker container.
 
 ### Build the image
 
