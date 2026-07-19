@@ -32,7 +32,7 @@ function agy {
         echo "Call 'agy .' or 'agy /path/to/project'";
     else
         proj_dir=$(cd "$1" && pwd);
-        make -C $antigravity_dir run HOST_PATH_TO_PROJECT="$proj_dir" CONTAINER_PATH_TO_MOUNT_PROJECT="$proj_dir";
+        make -s -C $antigravity_dir run HOST_PATH_TO_PROJECT="$proj_dir" CONTAINER_PATH_TO_MOUNT_PROJECT="$proj_dir";
     fi;
 }
 ```
