@@ -23,6 +23,7 @@ make build
 
 ### Add below function at the end of your .bashrc, replace `/path/to/antigravity_in_podman` with full path where antigravity_in_podman was cloned to
 
+```bash
 function agy {
     antigravity_dir=/path/to/antigravity_in_podman
     if [ -z "$1" ]; then
@@ -32,6 +33,7 @@ function agy {
         make -C $antigravity_dir run HOST_PATH_TO_PROJECT="$proj_dir" CONTAINER_PATH_TO_MOUNT_PROJECT="$proj_dir";
     fi;
 }
+```
 
 Once updated:
 
